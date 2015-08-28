@@ -1,0 +1,9 @@
+---
+name: WSe_2
+parameters:
+  - name: at
+    value: 3.939
+  - name: Δ
+    value: 1.60
+  - name: λ
+    value: 0.23

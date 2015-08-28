@@ -1,0 +1,7 @@
+---
+name: Intrinsic
+parameters:
+  - name: v0
+  value: 0.0075
+    meta:
+      description: Interaction energy.

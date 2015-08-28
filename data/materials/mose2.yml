@@ -1,0 +1,9 @@
+---
+name: MoSe_2
+parameters:
+  - name: at
+    value: 3.114
+  - name: Δ
+    value: 1.47
+  - name: λ
+    value: 0.09

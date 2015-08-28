@@ -1,0 +1,7 @@
+---
+name: Induced
+parameters:
+  - name: Δc
+    value: 0.0075
+  - name: Δv
+    value: 0.0075

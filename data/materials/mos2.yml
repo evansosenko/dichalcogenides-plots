@@ -1,0 +1,9 @@
+---
+name: MoS_2
+parameters:
+  - name: at
+    value: 3.512
+  - name: Δ
+    value: 1.66
+  - name: λ
+    value: 0.075
