@@ -33,18 +33,30 @@ def op(material):
     sc = Induced(dichalcogenide)
     trig = sc.trig
 
-    def coff(xi):
-        if xi > 0:
-            return trig('cos^2 β')(xi + mu)
+    def coff(v, xi):
+        c = trig('cos^2 β')(xi + mu)
+        s = trig('sin^2 β')(xi + mu)
+        if (xi > 0 and v == 1):
+            return c
+        elif (xi > 0 and v == -1):
+            return s
+        if (xi < 0 and v == -1):
+            return c
+        elif (xi < 0 and v == 1):
+            return s
         else:
-            return trig('sin^2 β')(xi + mu)
+            return 0
 
+    ofun = lambda v, xi: Optical(dichalcogenide, 1, v).p_circular(xi + mu)
     pfun = lambda v: lambda xi: \
-            coff(xi) * Optical(dichalcogenide, 1, v).p_circular(xi + mu)
-
+            coff(v, xi) * ofun(v, xi)
     fa, fb = pfun(1), pfun(-1)
 
     plot = fig.add_subplot(111)
+
+    plot.set_xlabel('$\\xi \\: \\left(\\si{\\electronvolt}\\right)$')
+    plot.set_ylabel('$\\left|c P\\right|^2 \\: \\left(\\si{\\giga \\electronvolt \\squared}\\right)$')
+
     x = numpy.linspace(*energy.ξ_bounds + (n,))
 
     eq = numpy.vectorize(fa)
