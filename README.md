@@ -2,6 +2,12 @@
 
 [![MIT License](https://img.shields.io/github/license/evansosenko/dichalcogenides-analysis.svg)](./LICENSE.txt)
 
+## Description
+
+Analysis for dichalcogenide systems.
+
+This is a major work in progress.
+
 ## Requirements
 
 - [Python 3](http://www.python.org/)
