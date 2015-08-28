@@ -1,0 +1,7 @@
+[MESSAGES CONTROL]
+
+disable=missing-docstring,multiple-statements,attribute-defined-outside-init,invalid-name
+
+[TYPECHECK]
+
+ignored-modules = numpy
