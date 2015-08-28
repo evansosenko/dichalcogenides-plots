@@ -36,19 +36,21 @@ def op(material):
     def coff(xi):
         if xi > 0:
             return trig('cos^2 β')(xi + mu)
-        elif xi < 0:
-            return trig('sin^2 β')(xi + mu)
         else:
-            return 0
+            return trig('sin^2 β')(xi + mu)
 
-    func = lambda xi: coff(xi) * optical.p_circular(xi + mu)
+    pfun = lambda v: lambda xi: \
+            coff(xi) * Optical(dichalcogenide, 1, v).p_circular(xi + mu)
+
+    fa, fb = pfun(1), pfun(-1)
 
     plot = fig.add_subplot(111)
     x = numpy.linspace(*energy.ξ_bounds + (n,))
 
-    for v in [1, -1]:
-        optical = Optical(dichalcogenide, 1, v)
-        eq = numpy.vectorize(func)
-        plot.plot(x, eq(x))
+    eq = numpy.vectorize(fa)
+    plot.plot(x, eq(x))
+
+    eq = numpy.vectorize(fb)
+    plot.plot(x, eq(x))
 
     save(fig, 'optical')
