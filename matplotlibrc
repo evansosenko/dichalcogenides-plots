@@ -1,3 +1,0 @@
-text.usetex : True
-text.latex.unicode : True
-text.latex.preamble : \usepackage{amsmath}, \usepackage[redefsymbols=false]{siunitx}

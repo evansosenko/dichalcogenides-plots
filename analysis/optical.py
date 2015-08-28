@@ -54,8 +54,8 @@ def op(material):
 
     plot = fig.add_subplot(111)
 
-    plot.set_xlabel('$\\xi \\: \\left(\\si{\\electronvolt}\\right)$')
-    plot.set_ylabel('$\\left|c P\\right|^2 \\: \\left(\\si{\\giga \\electronvolt \\squared}\\right)$')
+    plot.set_xlabel('$\\xi$ $\\mathrm{(eV)}$')
+    plot.set_ylabel('$\\|c P\\|^2$ $\\mathrm{(GeV)}$')
 
     x = numpy.linspace(*energy.ξ_bounds + (n,))
 
