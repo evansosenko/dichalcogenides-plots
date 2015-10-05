@@ -49,13 +49,13 @@ def op(material):
 
     ofun = lambda v, xi: Optical(dichalcogenide, 1, v).p_circular(xi + mu)
     pfun = lambda v: lambda xi: \
-            coff(v, xi) * ofun(v, xi)
+            coff(v, xi)
     fa, fb = pfun(1), pfun(-1)
 
     plot = fig.add_subplot(111)
 
     plot.set_xlabel('$\\xi$ $\\mathrm{(eV)}$')
-    plot.set_ylabel('$\\|c P\\|^2$ $\\mathrm{(GeV)}$')
+    plot.set_ylabel('$\\|c P\\|^2$ $\\mathrm{(GeV^2)}$')
 
     x = numpy.linspace(*energy.ξ_bounds + (n,))
 
