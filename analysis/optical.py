@@ -10,6 +10,7 @@ DATA = 'data'
 
 def main():
     op('mos2')
+    berry('mos2')
 
 def save(figure, name):
     if not os.path.isdir('build'): os.makedirs('build')
@@ -66,3 +67,25 @@ def op(material):
     plot.plot(x, eq(x))
 
     save(fig, 'optical')
+
+def berry(material):
+    fig = new_figure()
+    n = 200
+
+    dichalcogenide = Dichalcogenide(material, 'induced', data_root())
+    sc = Induced(dichalcogenide)
+    dk = sc.Δk(sc.μ)
+    sin = sc.trig('sin^2 β')
+
+    plot = fig.add_subplot(111)
+
+    plot.set_xlabel('$\\lambda_\\mathbf{k}$ $\\mathrm{(eV)}$')
+    plot.set_ylabel('$\\Omega / \\Omega_0$')
+
+    x = numpy.linspace(*sc.λk_bounds(dk) + (n,))
+
+    eq = numpy.vectorize(lambda y: sin(dk, y))
+    plot.plot(x, eq(x))
+    plot.plot(x, -eq(x))
+
+    save(fig, 'berry')
