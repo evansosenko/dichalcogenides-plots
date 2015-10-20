@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot
 import numpy
 
-from dichalcogenides.dichalcogenide import Energy, Optical, Dichalcogenide
+from dichalcogenides.dichalcogenide import UVBEnergy, Optical, Dichalcogenide
 from dichalcogenides.superconductor import Induced
 
 DATA = 'data'
@@ -29,7 +29,7 @@ def op(material):
     n = 50
 
     dichalcogenide = Dichalcogenide(material, 'induced', data_root())
-    energy = Energy(dichalcogenide)
+    energy = UVBEnergy(dichalcogenide)
     mu = energy.μ
     sc = Induced(dichalcogenide)
     trig = sc.trig
