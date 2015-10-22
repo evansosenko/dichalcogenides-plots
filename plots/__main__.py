@@ -1,2 +1,4 @@
+from . import energy
+
 if __name__ == '__main__':
-    pass
+    energy.main()
