@@ -1,4 +1,7 @@
-all: plots analysis
+all: init plots analysis
+
+init:
+	@mkdir -p build
 
 analysis:
 	@python -m analysis analysis >> stdout.log 2>> stderr.log
