@@ -23,7 +23,9 @@ class Plot():
 
     @property
     def figure_args(self):
-        return {}
+        if not hasattr(self, '_figure_args'):
+            self._figure_args = {}
+        return self._figure_args
 
     @property
     def figure(self):
@@ -46,5 +48,4 @@ class Plot():
         return matplotlib.pyplot.close(self.figure)
 
     def save(self):
-        print(self.path)
         self.figure.savefig(self.path)
