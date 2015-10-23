@@ -11,4 +11,8 @@ clean:
 	@rm stdout.log
 	@rm stderr.log
 
+lint:
+	@pylint analysis
+	@pylint plots
+
 .PHONY: build analysis plots
