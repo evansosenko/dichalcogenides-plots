@@ -8,8 +8,18 @@ class Plot():
         self.directory = directory
 
     @property
+    def extension(self):
+        if not hasattr(self, '_extension'):
+            self._extension = 'pdf'
+        return self._extension
+
+    @extension.setter
+    def extension(self, value):
+        self._extension = value
+
+    @property
     def path(self):
-        return os.path.join(self.directory, self.name)
+        return os.path.join(self.directory, self.name + '.' + self.extension)
 
     @property
     def figure_args(self):
