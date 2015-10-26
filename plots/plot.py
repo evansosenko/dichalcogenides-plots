@@ -30,6 +30,8 @@ class Plot():
 
     @property
     def material(self):
+        if not hasattr(self, '_material'):
+            self._material = None
         return self._material
 
     @material.setter
@@ -37,9 +39,20 @@ class Plot():
         self._material = value
 
     @property
+    def system(self):
+        if not hasattr(self, '_system'):
+            self._system = None
+        return self._system
+
+    @system.setter
+    def system(self, value):
+        self._system = value
+
+    @property
     def dichalcogenide(self):
         if not hasattr(self, '_dichalcogenide '):
-            self._dichalcogenide = Dichalcogenide(self.material, root='data')
+            self._dichalcogenide = Dichalcogenide(
+                self.material, self.system, root='data')
         return self._dichalcogenide
 
     @property
