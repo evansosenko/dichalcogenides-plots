@@ -19,6 +19,16 @@ class Plot():
         self._extension = value
 
     @property
+    def opts(self):
+        if not hasattr(self, '_opts'):
+            self._opts = {}
+        return self._opts
+
+    @opts.setter
+    def opts(self, value):
+        self._opts = value
+
+    @property
     def material(self):
         return self._material
 

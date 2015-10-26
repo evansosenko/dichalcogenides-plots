@@ -1,24 +1,27 @@
 import itertools
 
 import numpy
-from dichalcogenides.dichalcogenide import Energy, UVBEnergy, Dichalcogenide
+from dichalcogenides.dichalcogenide import Energy, UVBEnergy
 
 from . import Plot
 
 def main():
+    """Create and save all plots."""
     PlotBands('wse2').plot_all().save()
 
 class PlotBands(Plot):
     """Plot dichalcogenide band structure."""
+
     def __init__(self, material):
         self.material = material
+        self.opts = dict(
+            dk=0.4, # valley width
+            k0=0.5, # valley separation
+            t=0.06, # text offset
+            tr=0.01, # relative text offset
+            n=100 # linspace points
+        )
         super(self.__class__, self).__init__('bands')
-
-        # Global layout parameters.
-        self.dk = 0.4 # valley width
-        self.k0 = 0.5 # valley separation
-        self.t = 0.06 # text offset
-        self.tr = 0.01 # relative text offset
 
     @property
     def plot(self):
@@ -28,18 +31,13 @@ class PlotBands(Plot):
             self.plot.axis('off')
         return self._plot
 
-    @property
-    def figure_args(self):
-        if not hasattr(self, '_figure_args'):
-            self._figure_args = {}
-        return self._figure_args
-
     def plot_all(self):
-        self.plot_bands()
-        self.plot_axes()
-        self.plot_chemical_potential()
-        self.plot_dimensions()
-        self.plot_labels()
+        """Create complete figure."""
+        (self.plot_bands()
+         .plot_axes()
+         .plot_chemical_potential()
+         .plot_dimensions()
+         .plot_labels())
         return self
 
     def plot_axes(self):
@@ -59,12 +57,13 @@ class PlotBands(Plot):
         return self
 
     def plot_bands(self):
+        """Plot energy bands."""
         e = Energy(self.dichalcogenide).e
-        k0, dk, t = self.k0, self.dk, self.t
-
+        k0, dk, t = self.opts['k0'], self.opts['dk'], self.opts['t']
         p = (-1, 1)
+
         for x in itertools.product(p, p, p):
-            k = numpy.linspace(x[1] * (k0 - dk), x[1] * (k0 + dk), 100)
+            k = numpy.linspace(x[1] * (k0 - dk), x[1] * (k0 + dk), self.opts['n'])
             fn = lambda k: e(k - x[1] * k0, *x)
 
             # Plot band.
@@ -85,9 +84,8 @@ class PlotBands(Plot):
 
     def plot_dimensions(self):
         """Add band gap and spin splitting dimensions."""
-        uvb = UVBEnergy(self.dichalcogenide)
         e = Energy(self.dichalcogenide).e
-        k0, t, tr = self.k0, self.t, self.tr
+        k0, t, tr = self.opts['k0'], self.opts['t'], self.opts['tr']
 
         dimension_style = dict(
             arrowstyle='|-|',
@@ -106,12 +104,14 @@ class PlotBands(Plot):
             arrowprops=dimension_style)
 
         self.plot.annotate(
-            '$2 \\lambda$', (-k0 - t, uvb.μ + t))
+            '$2 \\lambda$',
+            (-k0 - t, 0.5 * (e(0, -1, 1, 1) + e(0, -1, 1, -1)) + t))
 
         return self
 
     def plot_labels(self):
-        tr = self.tr
+        """Add band, valley, and spin annotations."""
+        tr = self.opts['tr']
 
         # Add valley labels.
         self.plot.annotate('$\\tau = -$', (0, 0.5 + tr), xycoords='axes fraction')
@@ -134,12 +134,14 @@ class PlotBands(Plot):
 
     def plot_chemical_potential(self):
         """Add chemical potential."""
+        k0, t = self.opts['k0'], self.opts['t']
         uvb = UVBEnergy(self.dichalcogenide)
         self.plot.axhline(uvb.μ, linestyle='--', color='black')
-        self.plot.annotate('$\\mu$', (-1.5 * self.k0, uvb.μ + self.t))
+        self.plot.annotate('$\\mu$', (-1.5 * k0, uvb.μ + t))
 
         return self
 
     @staticmethod
     def spin(s):
+        """Map plus and minus one to TeX spin arrow."""
         return [None, '$\\uparrow$', '$\\downarrow$'][s]
