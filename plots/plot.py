@@ -44,6 +44,7 @@ class Plot():
 
     @property
     def path(self):
+        """Path to save the figure."""
         return os.path.join(self.directory, self.name + '.' + self.extension)
 
     @property
@@ -73,4 +74,5 @@ class Plot():
         return matplotlib.pyplot.close(self.figure)
 
     def save(self):
+        """Save figure to file."""
         self.figure.savefig(self.path)
