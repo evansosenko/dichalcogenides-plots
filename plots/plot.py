@@ -1,6 +1,7 @@
 import os
 
 import matplotlib.pyplot
+from dichalcogenides.dichalcogenide import Dichalcogenide
 
 class Plot():
     def __init__(self, name, directory='build'):
@@ -16,6 +17,20 @@ class Plot():
     @extension.setter
     def extension(self, value):
         self._extension = value
+
+    @property
+    def material(self):
+        return self._material
+
+    @material.setter
+    def material(self, value):
+        self._material = value
+
+    @property
+    def dichalcogenide(self):
+        if not hasattr(self, '_dichalcogenide '):
+            self._dichalcogenide = Dichalcogenide(self.material, root='data')
+        return self._dichalcogenide
 
     @property
     def path(self):
