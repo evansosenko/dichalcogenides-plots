@@ -34,10 +34,11 @@ class PlotBands(Plot):
     def plot_all(self):
         """Create complete figure."""
         (self.plot_bands()
-         .plot_axes()
          .plot_chemical_potential()
+         .plot_axes()
          .plot_dimensions()
-         .plot_labels())
+         .plot_labels()
+         .plot_spins())
         return self
 
     def plot_axes(self):
@@ -59,26 +60,24 @@ class PlotBands(Plot):
     def plot_bands(self):
         """Plot energy bands."""
         e = Energy(self.dichalcogenide).e
-        k0, dk, t = self.opts['k0'], self.opts['dk'], self.opts['t']
-        p = (-1, 1)
+        k0, dk = self.opts['k0'], self.opts['dk']
 
+        p = (-1, 1)
         for x in itertools.product(p, p, p):
             k = numpy.linspace(x[1] * (k0 - dk), x[1] * (k0 + dk), self.opts['n'])
             fn = lambda k: e(k - x[1] * k0, *x)
-
-            # Plot band.
             self.plot.plot(
                 k, numpy.vectorize(fn)(k),
                 color='black')
 
-            # Add spin annotation.
-            valign = ['bottom', 'top']
-            if x[0] == -1: valign.reverse()
-            valign.insert(0, None)
-            self.plot.annotate(self.spin(
-                x[2]), (x[1] * (k0 + dk + t), fn(x[1] * (k0 + dk))),
-                horizontalalignment='center',
-                verticalalignment=valign[x[0] * x[1] * x[2]])
+        return self
+
+    def plot_chemical_potential(self):
+        """Add chemical potential."""
+        k0, t = self.opts['k0'], self.opts['t']
+        uvb = UVBEnergy(self.dichalcogenide)
+        self.plot.axhline(uvb.μ, linestyle='--', color='black')
+        self.plot.annotate('$\\mu$', (-1.5 * k0, uvb.μ + t))
 
         return self
 
@@ -110,13 +109,13 @@ class PlotBands(Plot):
         return self
 
     def plot_labels(self):
-        """Add band, valley, and spin annotations."""
+        """Add band and valley annotations."""
         tr = self.opts['tr']
 
         # Add valley labels.
         self.plot.annotate('$\\tau = -$', (0, 0.5 + tr), xycoords='axes fraction')
         self.plot.annotate('$\\tau = +$', (1, 0.5 + tr), xycoords='axes fraction',
-                     horizontalalignment='right')
+                           horizontalalignment='right')
 
         # Add band labels.
         self.plot.annotate(
@@ -131,13 +130,21 @@ class PlotBands(Plot):
 
         return self
 
+    def plot_spins(self):
+        """Add spin annotation."""
+        e = Energy(self.dichalcogenide).e
+        k0, dk, t = self.opts['k0'], self.opts['dk'], self.opts['t']
 
-    def plot_chemical_potential(self):
-        """Add chemical potential."""
-        k0, t = self.opts['k0'], self.opts['t']
-        uvb = UVBEnergy(self.dichalcogenide)
-        self.plot.axhline(uvb.μ, linestyle='--', color='black')
-        self.plot.annotate('$\\mu$', (-1.5 * k0, uvb.μ + t))
+        p = (-1, 1)
+        for x in itertools.product(p, p, p):
+            fn = lambda k: e(k - x[1] * k0, *x)
+            valign = ['bottom', 'top']
+            if x[0] == -1: valign.reverse()
+            valign.insert(0, None)
+            self.plot.annotate(self.spin(
+                x[2]), (x[1] * (k0 + dk + t), fn(x[1] * (k0 + dk))),
+                horizontalalignment='center',
+                verticalalignment=valign[x[0] * x[1] * x[2]])
 
         return self
 
