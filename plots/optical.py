@@ -6,7 +6,20 @@ from dichalcogenides.superconductor import Induced
 from . import Plot
 
 def main():
-    PlotOptical('wse2', 'induced').plot_all().save()
+    plot_optical('mos2', 'mose2', 'ws2', 'wse2')
+
+def plot_optical(*materials):
+    plot = PlotOptical(None, 'induced')
+
+    legend = []
+    for material in materials:
+        plot.material = material
+        legend.append(plot.dichalcogenide.material.name)
+        plot.plot_all()
+
+    legend = ['$\\mathregular{' + l + '}$' for l in legend]
+    plot.plot.legend(legend)
+    plot.save()
 
 class PlotOptical(Plot):
     def __init__(self, material, system):
@@ -27,6 +40,22 @@ class PlotOptical(Plot):
     def plot_all(self):
         """Create complete figure."""
         self.plot_sc_p()
+        return self
+
+    def plot_sc_p(self):
+        uvb = UVBEnergy(self.dichalcogenide)
+        sc = Induced(self.dichalcogenide)
+        xi = sc.ξ
+        dk = sc.Δk(0)
+        sin2 = sc.trig('sin^2 β')
+
+        p = lambda a: Optical(self.dichalcogenide, 1, a).p_circular
+        psc = lambda a, lk: sin2(dk, lk) * p(a)(xi(dk, lk) + uvb.μ)
+        fn = lambda lk: (psc(1, lk) - psc(-1, lk)) / (psc(1, lk) + psc(-1, lk))
+
+        lk = numpy.linspace(*sc.λk_bounds(dk), self.opts['n'])
+        self.plot.plot(lk, numpy.vectorize(fn)(lk))
+
         return self
 
     def plot_rate(self, alpha):
@@ -64,25 +93,6 @@ class PlotOptical(Plot):
         lk = numpy.linspace(*sc.λk_bounds(dk), self.opts['n'])
 
         fn = lambda lk: s(dk, lk) * p(xi(dk, lk) + uvb.μ)
-        self.plot.plot(
-            lk, numpy.vectorize(fn)(lk))
-
-        return self
-
-    def plot_sc_p(self):
-        uvb = UVBEnergy(self.dichalcogenide)
-        sc = Induced(self.dichalcogenide)
-        xi = sc.ξ
-        dk = sc.Δk(0)
-        s = sc.trig('sin^2 β')
-
-        p = lambda a: Optical(self.dichalcogenide, 1, a).p_circular
-        psc = lambda a, lk: s(dk, lk) * p(a)(xi(dk, lk) + uvb.μ)
-
-        fn = lambda lk: (psc(1, lk) - psc(-1, lk)) / (psc(1, lk) + psc(-1, lk))
-
-        lk = numpy.linspace(*sc.λk_bounds(dk), self.opts['n'])
-
         self.plot.plot(
             lk, numpy.vectorize(fn)(lk))
 
