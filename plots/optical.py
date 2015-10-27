@@ -35,6 +35,8 @@ class PlotOptical(Plot):
         """Create and configure the plot object."""
         if not hasattr(self, '_plot'):
             self._plot = self.figure.add_subplot(111)
+            self.plot.set_xlabel('$\\lambda_{\\mathbf{k}}$ (eV)')
+            self.plot.set_ylabel('$\\frac{P_+^2 - P_-^2}{P_+^2 + P_-^2}$')
         return self._plot
 
     def plot_all(self):
