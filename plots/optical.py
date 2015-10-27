@@ -56,7 +56,11 @@ class PlotOptical(Plot):
         fn = lambda lk: (psc(1, lk) - psc(-1, lk)) / (psc(1, lk) + psc(-1, lk))
 
         lk = numpy.linspace(*sc.λk_bounds(dk), self.opts['n'])
+
+        err = numpy.geterr()
+        numpy.seterr(invalid='ignore')
         self.plot.plot(lk, numpy.vectorize(fn)(lk))
+        numpy.seterr(**err)
 
         return self
 
