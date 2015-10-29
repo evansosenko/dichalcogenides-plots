@@ -1,6 +1,6 @@
 import numpy
 
-from dichalcogenides.dichalcogenide import Optical, UVBEnergy
+from dichalcogenides.dichalcogenide import Optical, UpperValenceBand
 from dichalcogenides.superconductor import Induced
 
 from . import Plot
@@ -45,7 +45,7 @@ class PlotOptical(Plot):
         return self
 
     def plot_sc_p(self):
-        uvb = UVBEnergy(self.dichalcogenide)
+        uvb = UpperValenceBand(self.dichalcogenide)
         sc = Induced(self.dichalcogenide)
         xi = sc.ξ
         dk = sc.Δk(0)
@@ -65,7 +65,7 @@ class PlotOptical(Plot):
         return self
 
     def plot_rate(self, alpha):
-        uvb = UVBEnergy(self.dichalcogenide)
+        uvb = UpperValenceBand(self.dichalcogenide)
         p = Optical(self.dichalcogenide, 1, alpha).p_circular
         xi = numpy.linspace(*uvb.ξ_bounds, self.opts['n'])
 
@@ -76,7 +76,7 @@ class PlotOptical(Plot):
         return self
 
     def plot_p(self):
-        uvb = UVBEnergy(self.dichalcogenide)
+        uvb = UpperValenceBand(self.dichalcogenide)
         p = lambda a: Optical(self.dichalcogenide, 1, a).p_circular
         xi = numpy.linspace(*uvb.ξ_bounds, self.opts['n'])
 
@@ -89,7 +89,7 @@ class PlotOptical(Plot):
         return self
 
     def plot_sc_rate(self, alpha):
-        uvb = UVBEnergy(self.dichalcogenide)
+        uvb = UpperValenceBand(self.dichalcogenide)
         p = Optical(self.dichalcogenide, 1, alpha).p_circular
         sc = Induced(self.dichalcogenide)
         xi = sc.ξ

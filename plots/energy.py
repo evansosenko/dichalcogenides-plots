@@ -1,7 +1,7 @@
 import itertools
 
 import numpy
-from dichalcogenides.dichalcogenide import Energy, UVBEnergy
+from dichalcogenides.dichalcogenide import Energy, UpperValenceBand
 
 from . import Plot
 
@@ -75,7 +75,7 @@ class PlotBands(Plot):
     def plot_chemical_potential(self):
         """Add chemical potential."""
         k0, t = self.opts['k0'], self.opts['t']
-        uvb = UVBEnergy(self.dichalcogenide)
+        uvb = UpperValenceBand(self.dichalcogenide)
         self.plot.axhline(uvb.μ, linestyle='--', color='black')
         self.plot.annotate('$\\mu$', (-1.5 * k0, uvb.μ + t))
 

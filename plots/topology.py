@@ -1,6 +1,6 @@
 import numpy
 
-from dichalcogenides.dichalcogenide import UVBEnergy, Energy, Topology
+from dichalcogenides.dichalcogenide import UpperValenceBand, Energy, Topology
 from dichalcogenides.superconductor import Induced
 
 from . import Plot
@@ -45,7 +45,7 @@ class PlotBerry(Plot):
         return self
 
     def plot_sc_bc(self):
-        uvb = UVBEnergy(self.dichalcogenide)
+        uvb = UpperValenceBand(self.dichalcogenide)
         energy = Energy(self.dichalcogenide)
         bc = Topology(self.dichalcogenide).Ω
         sc = Induced(self.dichalcogenide)
