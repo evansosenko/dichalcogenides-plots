@@ -5,6 +5,9 @@
 # For more details, visit the project page:
 # https://github.com/github/gitignore
 
+# Documentation
+docs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

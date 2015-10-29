@@ -1,7 +1,11 @@
-all: init plots analysis
+all: init docs plots analysis
 
 init:
 	@mkdir -p build
+
+docs:
+	@pdoc --html --html-dir ./docs --overwrite ./analysis
+	@pdoc --html --html-dir ./docs --overwrite ./plots
 
 analysis:
 	@python -m analysis analysis >> stdout.log 2>> stderr.log
@@ -18,4 +22,4 @@ lint:
 	@pylint analysis
 	@pylint plots
 
-.PHONY: build analysis plots
+.PHONY: docs build analysis plots
