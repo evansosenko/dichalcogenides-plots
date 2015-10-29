@@ -51,8 +51,8 @@ class PlotOptical(Plot):
         dk = sc.Δk(0)
         sin2 = sc.trig('sin^2 β')
 
-        p = lambda a: Optical(self.dichalcogenide, 1, a).p_circular
-        psc = lambda a, lk: sin2(dk, lk) * p(a)(xi(dk, lk) + uvb.μ)
+        p = Optical(self.dichalcogenide).p_circular
+        psc = lambda a, lk: sin2(dk, lk) * p(xi(dk, lk) + uvb.μ, 1, a)
         fn = lambda lk: (psc(1, lk) - psc(-1, lk)) / (psc(1, lk) + psc(-1, lk))
 
         lk = numpy.linspace(*sc.λk_bounds(dk), self.opts['n'])
@@ -66,10 +66,10 @@ class PlotOptical(Plot):
 
     def plot_rate(self, alpha):
         uvb = UpperValenceBand(self.dichalcogenide)
-        p = Optical(self.dichalcogenide, 1, alpha).p_circular
+        p = Optical(self.dichalcogenide).p_circular
         xi = numpy.linspace(*uvb.ξ_bounds, self.opts['n'])
 
-        fn = lambda xi: p(xi + uvb.μ)
+        fn = lambda xi: p(xi + uvb.μ, 1, alpha)
         self.plot.plot(
             xi, numpy.vectorize(fn)(xi))
 
@@ -77,10 +77,10 @@ class PlotOptical(Plot):
 
     def plot_p(self):
         uvb = UpperValenceBand(self.dichalcogenide)
-        p = lambda a: Optical(self.dichalcogenide, 1, a).p_circular
+        p = Optical(self.dichalcogenide).p_circular
         xi = numpy.linspace(*uvb.ξ_bounds, self.opts['n'])
 
-        pxi = lambda a, xi: p(a)(xi + uvb.μ)
+        pxi = lambda a, xi: p(a)(xi + uvb.μ, 1, a)
         fn = lambda xi: (pxi(1, xi) - pxi(-1, xi)) / (pxi(1, xi) + pxi(-1, xi))
 
         self.plot.plot(
@@ -90,7 +90,7 @@ class PlotOptical(Plot):
 
     def plot_sc_rate(self, alpha):
         uvb = UpperValenceBand(self.dichalcogenide)
-        p = Optical(self.dichalcogenide, 1, alpha).p_circular
+        p = Optical(self.dichalcogenide).p_circular
         sc = Induced(self.dichalcogenide)
         xi = sc.ξ
         dk = sc.Δk(0)
@@ -98,7 +98,7 @@ class PlotOptical(Plot):
 
         lk = numpy.linspace(*sc.λk_bounds(dk), self.opts['n'])
 
-        fn = lambda lk: s(dk, lk) * p(xi(dk, lk) + uvb.μ)
+        fn = lambda lk: s(dk, lk) * p(xi(dk, lk) + uvb.μ, 1, alpha)
         self.plot.plot(
             lk, numpy.vectorize(fn)(lk))
 
