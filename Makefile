@@ -14,6 +14,7 @@ plots:
 	@python -m plots plots >> stdout.log 2>> stderr.log
 
 clean:
+	@rm -rf docs
 	@rm -rf build
 	@rm stdout.log
 	@rm stderr.log
