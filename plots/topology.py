@@ -6,9 +6,9 @@ from dichalcogenides.superconductor import Induced
 from . import Plot
 
 def main():
-    plot_berry_curvature('mos2', 'mose2', 'ws2', 'wse2')
+    plot_berry_curvature_superconductor('mos2', 'mose2', 'ws2', 'wse2')
 
-def plot_berry_curvature(*materials):
+def plot_berry_curvature_superconductor(*materials):
     plot = PlotBerry(None, 'induced')
 
     legend = []
@@ -41,10 +41,10 @@ class PlotBerry(Plot):
 
     def plot_all(self):
         """Create complete figure."""
-        self.plot_sc_bc()
+        self.plot_berry_curvature_superconductor
         return self
 
-    def plot_sc_bc(self):
+    def plot_berry_curvature_superconductor(self):
         uvb = UpperValenceBand(self.dichalcogenide)
         energy = Energy(self.dichalcogenide)
         bc = Topology(self.dichalcogenide).Ω
