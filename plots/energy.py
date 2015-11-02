@@ -21,7 +21,7 @@ class PlotBands(Plot):
             tr=0.01, # relative text offset
             n=100 # linspace points
         )
-        super(self.__class__, self).__init__('bands')
+        super(self.__class__, self).__init__('energy-bands')
 
     @property
     def plot(self):

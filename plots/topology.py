@@ -28,7 +28,7 @@ class PlotBerry(Plot):
         self.opts = dict(
             n=100 # linspace points
         )
-        super(self.__class__, self).__init__('topology')
+        super(self.__class__, self).__init__('topology-berry_curvature')
 
     @property
     def plot(self):

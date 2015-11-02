@@ -28,7 +28,7 @@ class PlotOptical(Plot):
         self.opts = dict(
             n=100 # linspace points
         )
-        super(self.__class__, self).__init__('optical')
+        super(self.__class__, self).__init__('optical-transitions')
 
     @property
     def plot(self):
