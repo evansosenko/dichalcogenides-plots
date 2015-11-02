@@ -11,7 +11,7 @@ class Plot():
     @property
     def extension(self):
         if not hasattr(self, '_extension'):
-            self._extension = 'pdf'
+            self._extension = 'eps'
         return self._extension
 
     @extension.setter
