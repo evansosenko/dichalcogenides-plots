@@ -49,7 +49,7 @@ class PlotOptical(Plot):
         sc = Induced(self.dichalcogenide)
         xi = sc.ξ
         dk = sc.Δk(0)
-        sin2 = sc.trig('sin^2 β')
+        sin2 = sc.trig('cos^2 β')
 
         p = Optical(self.dichalcogenide).p_circular
         psc = lambda a, lk: sin2(dk, lk) * p(xi(dk, lk) + uvb.μ, 1, a)
