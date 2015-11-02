@@ -77,7 +77,7 @@ class PlotBands(Plot):
         k0, t = self.opts['k0'], self.opts['t']
         uvb = UpperValenceBand(self.dichalcogenide)
         self.plot.axhline(uvb.μ, linestyle='--', color='black')
-        self.plot.annotate('$\\mu$', (-1.5 * k0, uvb.μ + t))
+        self.plot.annotate('$\\mu$', (-1, uvb.μ + t))
 
         return self
 
@@ -96,7 +96,7 @@ class PlotBands(Plot):
            arrowprops=dimension_style)
 
         self.plot.annotate(
-            '$\\Delta$', (0.22, 0.5 + tr), xycoords='axes fraction')
+            '$\\Delta$', (-k0 + 0.5 * t, 0 + t))
 
         self.plot.annotate(
             '', (-k0, e(0, -1, 1, 1)), (-k0, e(0, -1, 1, -1)),
@@ -104,7 +104,7 @@ class PlotBands(Plot):
 
         self.plot.annotate(
             '$2 \\lambda$',
-            (-k0 - t, 0.5 * (e(0, -1, 1, 1) + e(0, -1, 1, -1)) + t))
+            (-k0 + 0.5 * t, 0.5 * (e(0, -1, 1, 1) + e(0, -1, 1, -1)) - 3.5 * t))
 
         return self
 
