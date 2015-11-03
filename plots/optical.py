@@ -61,7 +61,10 @@ class PlotOptical(Plot):
 
         err = numpy.geterr()
         numpy.seterr(invalid='ignore')
-        self.plot.plot(lk, numpy.vectorize(fn)(lk))
+        self.plot.plot(
+            lk, numpy.vectorize(fn)(lk),
+            next(self.lines),
+            color='black', linewidth=2)
         numpy.seterr(**err)
 
         return self
