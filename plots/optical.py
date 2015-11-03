@@ -7,7 +7,7 @@ from dichalcogenides.superconductor import Induced
 from . import Plot
 
 def main():
-    plot_optical('mos2', 'mose2', 'ws2', 'wse2')
+    plot_optical('mose2', 'ws2', 'wse2')
 
 def plot_optical(*materials):
     plot = PlotOptical(None, 'induced')
