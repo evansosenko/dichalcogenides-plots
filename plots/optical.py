@@ -42,7 +42,7 @@ class PlotOptical(Plot):
             ]
             self.plot[0].axes.get_xaxis().set_visible(False)
             self.plot[1].set_xlabel('$\\lambda_{\\mathbf{k}} / \\Delta_0$')
-            units = ' ($\\mathregular{eV}$)'
+            units = ' ($\\mathregular{GeV}$)'
             self.plot[0].set_ylabel('$\\left|P_+\\right|$' + units)
             self.plot[1].set_ylabel('$\\left|P_-\\right|$' + units)
             self.figure.subplots_adjust(hspace=0.1)
