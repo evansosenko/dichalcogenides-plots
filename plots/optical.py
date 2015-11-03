@@ -37,7 +37,7 @@ class PlotOptical(Plot):
         if not hasattr(self, '_plot'):
             matplotlib.rcParams.update({'font.size': 12})
             self._plot = self.figure.add_subplot(111)
-            self.plot.set_xlabel('$\\lambda_{\\mathbf{k}}$ (eV)')
+            self.plot.set_xlabel('$\\lambda_{\\mathbf{k}} / \\Delta_0$')
             self.plot.set_ylabel('$\\frac{P_+^2 - P_-^2}{P_+^2 + P_-^2}$')
         return self._plot
 
@@ -58,11 +58,12 @@ class PlotOptical(Plot):
         fn = lambda lk: (psc(1, lk) - psc(-1, lk)) / (psc(1, lk) + psc(-1, lk))
 
         lk = numpy.linspace(*sc.λk_bounds(dk), self.opts['n'])
+        x = lk / dk
 
         err = numpy.geterr()
         numpy.seterr(invalid='ignore')
         self.plot.plot(
-            lk, numpy.vectorize(fn)(lk),
+            x, numpy.vectorize(fn)(x * dk),
             next(self.lines),
             color='black', linewidth=2)
         numpy.seterr(**err)
