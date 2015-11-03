@@ -42,8 +42,9 @@ class PlotOptical(Plot):
             ]
             self.plot[0].axes.get_xaxis().set_visible(False)
             self.plot[1].set_xlabel('$\\lambda_{\\mathbf{k}} / \\Delta_0$')
-            self.plot[0].set_ylabel('$\\left|P_+\\right|$ ($\\mathregular{eV}$)')
-            self.plot[1].set_ylabel('$\\left|P_-\\right|$ ($\\mathregular{eV}$)')
+            units = ' ($\\mathregular{eV}$)'
+            self.plot[0].set_ylabel('$\\left|P_+\\right|$' + units)
+            self.plot[1].set_ylabel('$\\left|P_-\\right|$' + units)
             self.figure.subplots_adjust(hspace=0.1)
         return self._plot
 
