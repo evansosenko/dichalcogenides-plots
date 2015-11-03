@@ -1,4 +1,5 @@
 import os
+import itertools
 
 import matplotlib.pyplot
 from dichalcogenides.dichalcogenide import Dichalcogenide
@@ -47,6 +48,12 @@ class Plot():
     @system.setter
     def system(self, value):
         self._system = value
+
+    @property
+    def lines(self):
+        if not hasattr(self, '_lines'):
+            self._lines = itertools.cycle(["-","--","-.",":"])
+        return self._lines
 
     @property
     def dichalcogenide(self):
