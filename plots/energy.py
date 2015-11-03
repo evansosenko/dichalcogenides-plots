@@ -1,4 +1,5 @@
 import itertools
+import matplotlib
 
 import numpy
 from dichalcogenides.dichalcogenide import Energy, UpperValenceBand
@@ -27,6 +28,7 @@ class PlotBands(Plot):
     def plot(self):
         """Create and configure the plot object."""
         if not hasattr(self, '_plot'):
+            matplotlib.rcParams.update({'font.size': 22})
             self._plot = self.figure.add_subplot(111)
             self.plot.axis('off')
         return self._plot
