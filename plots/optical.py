@@ -19,7 +19,7 @@ def plot_optical(*materials):
         plot.plot_all()
 
     legend = ['$\\mathregular{' + l + '}$' for l in legend]
-    plot.plot.legend(legend)
+    plot.plot[0].legend(legend)
     plot.save()
 
 class PlotOptical(Plot):
@@ -36,9 +36,15 @@ class PlotOptical(Plot):
         """Create and configure the plot object."""
         if not hasattr(self, '_plot'):
             matplotlib.rcParams.update({'font.size': 12})
-            self._plot = self.figure.add_subplot(111)
-            self.plot.set_xlabel('$\\lambda_{\\mathbf{k}} / \\Delta_0$')
-            self.plot.set_ylabel('$\\frac{P_+^2 - P_-^2}{P_+^2 + P_-^2}$')
+            self._plot = [
+                self.figure.add_subplot(211),
+                self.figure.add_subplot(212)
+            ]
+            self.plot[0].axes.get_xaxis().set_visible(False)
+            self.plot[1].set_xlabel('$\\lambda_{\\mathbf{k}} / \\Delta_0$')
+            self.plot[0].set_ylabel('$\\left|P_+\\right|$ ($\\mathregular{eV}$)')
+            self.plot[1].set_ylabel('$\\left|P_-\\right|$ ($\\mathregular{eV}$)')
+            self.figure.subplots_adjust(hspace=0.1)
         return self._plot
 
     def plot_all(self):
@@ -51,21 +57,28 @@ class PlotOptical(Plot):
         sc = Induced(self.dichalcogenide)
         xi = sc.ξ
         dk = sc.Δk(0)
-        sin2 = sc.trig('cos^2 β')
+        sc_trig = sc.trig('sin^2 β')
 
         p = Optical(self.dichalcogenide).p_circular
-        psc = lambda a, lk: sin2(dk, lk) * p(xi(dk, lk) + uvb.μ, 1, a)
-        fn = lambda lk: (psc(1, lk) - psc(-1, lk)) / (psc(1, lk) + psc(-1, lk))
+        psc = lambda a, lk: sc_trig(dk, lk) * p(xi(dk, lk) + uvb.μ, 1, a)
+        fn_m = lambda lk: numpy.sqrt(psc(-1, lk))
+        fn_p = lambda lk: numpy.sqrt(psc(1, lk))
 
         lk = numpy.linspace(*sc.λk_bounds(dk), self.opts['n'])
         x = lk / dk
 
         err = numpy.geterr()
         numpy.seterr(invalid='ignore')
-        self.plot.plot(
-            x, numpy.vectorize(fn)(x * dk),
-            next(self.lines),
-            color='black', linewidth=2)
+
+        line = next(self.lines)
+        self.plot[0].plot(
+            x, numpy.vectorize(fn_p)(x * dk),
+            line, color='black', linewidth=2)
+
+        self.plot[1].plot(
+            x, numpy.vectorize(fn_m)(x * dk),
+            line, color='black', linewidth=2)
+
         numpy.seterr(**err)
 
         return self
