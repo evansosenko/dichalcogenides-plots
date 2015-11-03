@@ -52,7 +52,7 @@ class Plot():
     @property
     def lines(self):
         if not hasattr(self, '_lines'):
-            self._lines = itertools.cycle(["-","--","-.",":"])
+            self._lines = itertools.cycle(['-','--',':','-.'])
         return self._lines
 
     @property
