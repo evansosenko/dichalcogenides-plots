@@ -35,7 +35,7 @@ class PlotOptical(Plot):
     def plot(self):
         """Create and configure the plot object."""
         if not hasattr(self, '_plot'):
-            matplotlib.rcParams.update({'font.size': 12})
+            matplotlib.rcParams.update({'font.size': 16})
             self._plot = [
                 self.figure.add_subplot(211),
                 self.figure.add_subplot(212)
@@ -45,6 +45,9 @@ class PlotOptical(Plot):
             units = ' ($\\mathregular{GeV}$)'
             self.plot[0].set_ylabel('$\\left|P_+\\right|$' + units)
             self.plot[1].set_ylabel('$\\left|P_-\\right|$' + units)
+
+            self.plot[0].locator_params(nbins=4)
+            self.plot[1].locator_params(nbins=4)
             self.figure.subplots_adjust(hspace=0.1)
         return self._plot
 
