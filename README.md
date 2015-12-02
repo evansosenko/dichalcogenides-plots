@@ -1,10 +1,10 @@
-# Dichalcogenides Analysis
+# Dichalcogenides Plots
 
 [![MIT License](https://img.shields.io/github/license/evansosenko/dichalcogenides-analysis.svg)](./LICENSE.txt)
 
 ## Description
 
-Analysis for dichalcogenide systems.
+Plots for dichalcogenide systems.
 
 This is a major work in progress.
 
@@ -23,7 +23,7 @@ $ pip install -r requirements.txt.lock
 
 ## Usage
 
-Run the analysis with
+Generate the plots with
 
 ```bash
 $ make
