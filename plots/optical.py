@@ -42,9 +42,10 @@ class PlotOptical(Plot):
             ]
             self.plot[0].axes.get_xaxis().set_visible(False)
             self.plot[1].set_xlabel('$\\lambda_{\\mathbf{k}} / \\Delta_0$')
-            units = ' ($\\mathregular{GeV}$)'
-            self.plot[0].set_ylabel('$\\left|P_+\\right|$' + units)
-            self.plot[1].set_ylabel('$\\left|P_-\\right|$' + units)
+            head = '$\\left( c / ℏ \\right) \\left|P_'
+            foot = '\\right|$ ($\\mathregular{GeV}$)'
+            self.plot[0].set_ylabel(head + '+' + foot)
+            self.plot[1].set_ylabel(head + '-' + foot)
 
             self.plot[0].locator_params(nbins=4)
             self.plot[1].locator_params(nbins=4)
