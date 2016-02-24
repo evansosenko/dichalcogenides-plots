@@ -6,8 +6,6 @@
 
 Plots for dichalcogenide systems.
 
-This is a major work in progress.
-
 ## Requirements
 
 - [Python 3](http://www.python.org/)
