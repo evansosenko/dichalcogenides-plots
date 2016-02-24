@@ -42,7 +42,7 @@ $ make clean
 
 ## License
 
-This code is Copyright © 2015 Evan Sosenko.
+This code is Copyright © 2015-2016 Evan Sosenko.
 
 ## Warranty
 
