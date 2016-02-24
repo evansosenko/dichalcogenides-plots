@@ -1,6 +1,6 @@
 # Dichalcogenides Plots
 
-[![MIT License](https://img.shields.io/github/license/evansosenko/dichalcogenides-analysis.svg)](./LICENSE.txt)
+[![MIT License](https://img.shields.io/github/license/evansosenko/dichalcogenides-plots.svg)](./LICENSE.txt)
 
 ## Description
 
