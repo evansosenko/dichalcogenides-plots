@@ -10,14 +10,14 @@ class Plot():
         self.directory = directory
 
     @property
-    def extension(self):
-        if not hasattr(self, '_extension'):
-            self._extension = 'eps'
-        return self._extension
+    def extensions(self):
+        if not hasattr(self, '_extensions'):
+            self._extensions = ['eps', 'pdf', 'svg']
+        return self._extensions
 
-    @extension.setter
-    def extension(self, value):
-        self._extension = value
+    @extensions.setter
+    def extensions(self, value):
+        self._extensions = value
 
     @property
     def opts(self):
@@ -63,9 +63,10 @@ class Plot():
         return self._dichalcogenide
 
     @property
-    def path(self):
-        """Path to save the figure."""
-        return os.path.join(self.directory, self.name + '.' + self.extension)
+    def paths(self):
+        """Paths to save the figure."""
+        return [os.path.join(self.directory, self.name + '.' + extension)
+                for extension in self.extensions]
 
     @property
     def figure_args(self):
@@ -95,4 +96,5 @@ class Plot():
 
     def save(self):
         """Save figure to file."""
-        self.figure.savefig(self.path)
+        for path in self.paths:
+            self.figure.savefig(path)
