@@ -97,4 +97,4 @@ class Plot():
     def save(self):
         """Save figure to file."""
         for path in self.paths:
-            self.figure.savefig(path)
+            self.figure.savefig(path, transparent=True)
