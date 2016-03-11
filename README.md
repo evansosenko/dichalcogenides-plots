@@ -20,6 +20,12 @@ Install the required Python packages with
 $ pip install -r requirements.txt.lock
 ```
 
+Alternatively, install the unlocked (untested) dependencies with,
+
+```bash
+$ pip install -r requirements.txt
+```
+
 ## Usage
 
 Generate the plots with
