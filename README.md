@@ -10,7 +10,7 @@ Plots for dichalcogenide systems.
 
 - [Python 3](http://www.python.org/)
   with [pip](http://www.pip-installer.org/).
-  Tested with Python 3.5.1 and pip 8.1.0.
+  Tested with Python 3.5.1 and pip 8.1.1.
 
 ## Setup
 
