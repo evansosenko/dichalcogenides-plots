@@ -1,8 +1,12 @@
 dichalcogenides==0.2.0
 pdoc==0.3.2
+pylint==1.5.5
 matplotlib==1.5.1
 ## The following requirements were added by pip freeze:
+astroid==1.4.5
+colorama==0.3.7
 cycler==0.10.0
+lazy-object-proxy==1.2.2
 Mako==1.0.4
 Markdown==2.4.1
 MarkupSafe==0.23
@@ -13,3 +17,4 @@ pytz==2016.4
 PyYAML==3.11
 scipy==0.17.0
 six==1.10.0
+wrapt==1.10.8
