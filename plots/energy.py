@@ -130,6 +130,17 @@ class PlotBands(Plot):
              verticalalignment='bottom',
              horizontalalignment='left')
 
+        # Add valley momentum labels.
+        self.plot.annotate(
+            '$\\mathbf{K}$', (0.75, 0.1 - tr), xycoords='axes fraction',
+            verticalalignment='top',
+            horizontalalignment='center')
+
+        self.plot.annotate(
+            '$- \\mathbf{K}$', (0.25, 0.1 - tr), xycoords='axes fraction',
+            verticalalignment='top',
+            horizontalalignment='center')
+
         return self
 
     def plot_spins(self):
