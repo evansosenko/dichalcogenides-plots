@@ -44,7 +44,7 @@ class PlotOptical(Plot):
             self.plot[1].set_xlabel(
                 '$\\lambda_{\\mathbf{k}} / \\Delta_{\\mathbf{k}}$')
             head = '$\\left( c / ℏ \\right) \\left|P_'
-            foot = '\\right|$ ($\\mathregular{GeV}$)'
+            foot = '\\right|^2$ ($\\mathregular{GeV}^2$)'
             self.plot[0].set_ylabel(head + '+' + foot)
             self.plot[1].set_ylabel(head + '-' + foot)
 
@@ -67,8 +67,8 @@ class PlotOptical(Plot):
 
         p = Optical(self.dichalcogenide).p_circular
         psc = lambda a, lk: sc_trig(dk, lk) * p(xi(dk, lk) + uvb.μ, 1, a)
-        fn_m = lambda lk: numpy.sqrt(psc(-1, lk))
-        fn_p = lambda lk: numpy.sqrt(psc(1, lk))
+        fn_m = lambda lk: psc(-1, lk)
+        fn_p = lambda lk: psc(1, lk)
 
         lk = numpy.linspace(*sc.λk_bounds(dk), self.opts['n'])
         x = lk / dk
