@@ -33,6 +33,8 @@ class PlotBands(Plot):
             matplotlib.rcParams.update({'font.size': 22})
             self._plot = self.figure.add_subplot(111)
             self.plot.axis('off')
+            self.plot.axes.get_xaxis().set_visible(False)
+            self.plot.axes.get_yaxis().set_visible(False)
         return self._plot
 
     def plot_all(self):
@@ -54,10 +56,10 @@ class PlotBands(Plot):
         self.plot.axhline(**axes_style)
         self.plot.axvline(**axes_style)
         self.plot.annotate(
-            '$E(k)$', (0.5, 1.05),
+            '$E(k)$', (0.5, 1.00),
             xycoords='axes fraction',
             horizontalalignment='center',
-            verticalalignment='center')
+            verticalalignment='bottom')
 
         return self
 
