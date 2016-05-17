@@ -5,6 +5,7 @@ import matplotlib.pyplot
 from dichalcogenides.dichalcogenide import Dichalcogenide
 
 class Plot():
+    # pylint: disable=too-many-instance-attributes
     def __init__(self, name, directory='build'):
         self.name = name
         self.directory = directory
@@ -52,7 +53,7 @@ class Plot():
     @property
     def lines(self):
         if not hasattr(self, '_lines'):
-            self._lines = itertools.cycle(['-','--',':','-.'])
+            self._lines = itertools.cycle(['-', '--', ':', '-.'])
         return self._lines
 
     @property

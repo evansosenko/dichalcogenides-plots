@@ -55,9 +55,9 @@ class PlotBands(Plot):
         self.plot.axvline(**axes_style)
         self.plot.annotate(
             '$E(k)$', (0.5, 1.05),
-             xycoords='axes fraction',
-             horizontalalignment='center',
-             verticalalignment='center')
+            xycoords='axes fraction',
+            horizontalalignment='center',
+            verticalalignment='center')
 
         return self
 
@@ -69,7 +69,7 @@ class PlotBands(Plot):
         p = (-1, 1)
         for x in itertools.product(p, p, p):
             k = numpy.linspace(x[1] * (k0 - dk), x[1] * (k0 + dk), self.opts['n'])
-            fn = lambda k: e(k - x[1] * k0, *x)
+            fn = lambda k, s=x: e(k - s[1] * k0, *s)
             self.plot.plot(
                 k, numpy.vectorize(fn)(k),
                 color='black')
@@ -78,7 +78,7 @@ class PlotBands(Plot):
 
     def plot_chemical_potential(self):
         """Add chemical potential."""
-        k0, t = self.opts['k0'], self.opts['t']
+        t = self.opts['t']
         uvb = UpperValenceBand(self.dichalcogenide)
         self.plot.axhline(uvb.μ, linestyle='--', color='black')
         self.plot.annotate('$\\mu$', (-1, uvb.μ + t))
@@ -88,7 +88,7 @@ class PlotBands(Plot):
     def plot_dimensions(self):
         """Add band gap and spin splitting dimensions."""
         e = Energy(self.dichalcogenide).e
-        k0, t, tr = self.opts['k0'], self.opts['t'], self.opts['tr']
+        k0, t = self.opts['k0'], self.opts['t']
 
         dimension_style = dict(
             arrowstyle='|-|',
@@ -97,7 +97,7 @@ class PlotBands(Plot):
 
         self.plot.annotate(
             '', (-k0, e(0, -1, 1, 1)), (-k0, e(0, 1, 1, 1)),
-           arrowprops=dimension_style)
+            arrowprops=dimension_style)
 
         self.plot.annotate(
             '$\\Delta$', (-k0 + 0.5 * t, 0 + t))
@@ -128,9 +128,9 @@ class PlotBands(Plot):
             horizontalalignment='left')
 
         self.plot.annotate(
-             '$n = +$', (0.5 + tr, 0.5 + tr), xycoords='axes fraction',
-             verticalalignment='bottom',
-             horizontalalignment='left')
+            '$n = +$', (0.5 + tr, 0.5 + tr), xycoords='axes fraction',
+            verticalalignment='bottom',
+            horizontalalignment='left')
 
         # Add valley momentum labels.
         self.plot.annotate(
@@ -152,12 +152,13 @@ class PlotBands(Plot):
 
         p = (-1, 1)
         for x in itertools.product(p, p, p):
-            fn = lambda k: e(k - x[1] * k0, *x)
+            fn = lambda k, s=x: e(k - s[1] * k0, *s)
             valign = ['bottom', 'top']
             if x[0] == -1: valign.reverse()
             valign.insert(0, None)
-            self.plot.annotate(self.spin(
-                x[2]), (x[1] * (k0 + dk + t), fn(x[1] * (k0 + dk))),
+            self.plot.annotate(
+                self.spin(x[2]),
+                (x[1] * (k0 + dk + t), fn(x[1] * (k0 + dk))),
                 horizontalalignment='center',
                 verticalalignment=valign[x[0] * x[1] * x[2]])
 
