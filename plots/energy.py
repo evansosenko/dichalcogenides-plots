@@ -1,7 +1,8 @@
 import itertools
-import matplotlib
 
+import matplotlib
 import numpy
+
 from dichalcogenides.dichalcogenide import Energy, UpperValenceBand
 
 from . import Plot
