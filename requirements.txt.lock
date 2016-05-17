@@ -1,4 +1,4 @@
-dichalcogenides==0.2.0
+dichalcogenides==0.2.1
 pdoc==0.3.2
 pylint==1.5.5
 matplotlib==1.5.1
@@ -11,10 +11,10 @@ Mako==1.0.4
 Markdown==2.4.1
 MarkupSafe==0.23
 numpy==1.11.0
-pyparsing==2.1.1
+pyparsing==2.1.4
 python-dateutil==2.5.3
 pytz==2016.4
 PyYAML==3.11
-scipy==0.17.0
+scipy==0.17.1
 six==1.10.0
 wrapt==1.10.8
