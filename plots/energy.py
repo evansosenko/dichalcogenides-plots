@@ -10,6 +10,7 @@ from . import Plot
 def main():
     """Create and save all plots."""
     PlotBands('wse2').plot_all().save()
+    PlotPairs('wse2').plot_all().save()
 
 class PlotBands(Plot):
     """Plot dichalcogenide band structure."""
@@ -23,7 +24,7 @@ class PlotBands(Plot):
             tr=0.01, # relative text offset
             n=100 # linspace points
         )
-        super(self.__class__, self).__init__('energy-bands')
+        super(PlotBands, self).__init__('energy-bands')
 
     @property
     def plot(self):
@@ -166,3 +167,74 @@ class PlotBands(Plot):
     def spin(s):
         """Map plus and minus one to TeX spin arrow."""
         return [None, '$\\uparrow$', '$\\downarrow$'][s]
+
+class PlotPairs(PlotBands):
+    """Plot bands with BCS pairing."""
+
+    def __init__(self, material):
+        super(PlotPairs, self).__init__(material)
+        self.name = 'bcs-pairs'
+
+    def plot_all(self):
+        """Create complete figure."""
+        (self.plot_bands()
+         .plot_chemical_potential()
+         .plot_axes()
+         .plot_spins()
+         .plot_berry()
+         .plot_pairs()
+         .plot_transition())
+        return self
+
+    def plot_berry(self):
+        k0, t = self.opts['k0'], self.opts['t']
+        self.plot.annotate(
+            '$-\\Omega_z$', (-k0, 0 + 25 * t), horizontalalignment='center')
+        self.plot.annotate(
+            '$+\\Omega_z$', (k0, 0 + 25 * t), horizontalalignment='center')
+        return self
+
+    def plot_pairs(self):
+        k0 = self.opts['k0']
+        e = Energy(self.dichalcogenide).e
+        dk = 0.2
+        k1 = k0 - dk
+        efn = numpy.vectorize(lambda k: e(k, -1, 1, 1))
+        self.plot.plot(
+            [(k1 - 0.15 * dk), -(k1 - 0.15 * dk)], efn([dk, dk]),
+            linestyle='--', linewidth=3, color='black')
+
+        self.plot.plot(
+            -k1, efn(dk),
+            marker='o', color='black', markersize=10)
+
+        self.plot.plot(
+            k1, efn(dk),
+            marker='o', color='black', markersize=10, markeredgewidth=2,
+            markerfacecolor='none')
+
+        return self
+
+    def plot_transition(self):
+        k0, t = self.opts['k0'], self.opts['t']
+        e = Energy(self.dichalcogenide).e
+        de = 0.1
+        dk = 0.2
+        k1 = k0 - dk
+        self.plot.plot([k1, k1], [e(dk, -1, 1, 1) + de, e(dk, 1, 1, 1) - de],
+                       linestyle=':', color='black', linewidth=3)
+        self.plot.plot(
+            k1, e(dk, 1, 1, 1),
+            marker='o', color='black', markersize=10)
+
+        w = 10
+        t = numpy.linspace(0.32, 0.6, 1000)
+        fn = lambda t: 0.1 * numpy.sin(2 * numpy.pi * w * t)
+        self.plot.plot(t, fn(t), color='black', linestyle='-')
+
+        self.plot.annotate(
+            '$\\epsilon_+$', (0.83, 0.52),
+            xycoords='axes fraction',
+            horizontalalignment='center',
+            verticalalignment='center')
+        return self
