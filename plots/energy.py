@@ -259,7 +259,7 @@ class PlotExcitation(PlotBands):
         """Create complete figure."""
         (self.plot_bands()
          .plot_chemical_potential()
-         .plot_axes(0.3)
+         .plot_axes(0.07)
          .plot_berry()
          .plot_pairs()
          .plot_light())
@@ -274,17 +274,15 @@ class PlotExcitation(PlotBands):
 
         p = (-1, 1)
         for x in itertools.product(p, p, p):
-            k = numpy.linspace(x[1] * (k0 - dk), x[1] * (k0 + dk), self.opts['n'])
+            n = self.opts['n']
+            k = numpy.linspace(x[1] * (k0 - dk), x[1] * (k0 + dk), n)
             if x[0] == -1 and x[1] == x[2]:
                 fn = lambda k, s=x: mu + lk(e(k - s[1] * k0, *s))
                 self.plot.plot(
                     k, numpy.vectorize(fn)(k),
                     color='black')
             if x[0] == -1:
-                fn = lambda k, s=x: e(k - s[1] * k0, *s)
-                self.plot.plot(
-                    k, numpy.vectorize(fn)(k),
-                    color='none')
+                pass
             else:
                 fn = lambda k, s=x: e(k - s[1] * k0, *s)
                 self.plot.plot(
@@ -292,7 +290,9 @@ class PlotExcitation(PlotBands):
                     color='black')
 
         self.plot.annotate(
-            'BCS Condensate', (0, -1.5), horizontalalignment='center')
+            'BCS Condensate', (0, -1.0),
+            horizontalalignment='center',
+            verticalalignment='center')
 
         return self
 
@@ -320,7 +320,7 @@ class PlotExcitation(PlotBands):
         self.plot.plot(fn(t), t, color='black', linestyle='-')
 
         self.plot.annotate(
-            '$\\mathbf{\\epsilon}_+$', (0.54, 0.55),
+            '$\\mathbf{\\epsilon}_+$', (0.54, 0.40),
             xycoords='axes fraction',
             horizontalalignment='center',
             verticalalignment='center')
