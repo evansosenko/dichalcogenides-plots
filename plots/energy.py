@@ -4,6 +4,7 @@ import matplotlib
 import numpy
 
 from dichalcogenides.dichalcogenide import Energy, UpperValenceBand
+from dichalcogenides.superconductor import Induced
 
 from . import Plot
 
@@ -11,6 +12,7 @@ def main():
     """Create and save all plots."""
     PlotBands('wse2').plot_all().save()
     PlotPairs('wse2').plot_all().save()
+    PlotExcitation('wse2', 'induced').plot_all().save()
 
 class PlotBands(Plot):
     """Plot dichalcogenide band structure."""
@@ -47,14 +49,14 @@ class PlotBands(Plot):
          .plot_spins())
         return self
 
-    def plot_axes(self):
+    def plot_axes(self, y=1.0):
         """Create and label center axes."""
         axes_style = dict(
             linewidth=0.5,
             color='gray')
 
         self.plot.axhline(**axes_style)
-        self.plot.axvline(**axes_style)
+        self.plot.axvline(**axes_style, ymin=y)
         self.plot.annotate(
             '$E(k)$', (0.5, 1.00),
             xycoords='axes fraction',
@@ -166,6 +168,15 @@ class PlotBands(Plot):
 
         return self
 
+    def plot_berry(self):
+        """Add Berry curvature."""
+        k0, t = self.opts['k0'], self.opts['t']
+        self.plot.annotate(
+            '$-\\Omega_z$', (-k0, 0 + 25 * t), horizontalalignment='center')
+        self.plot.annotate(
+            '$+\\Omega_z$', (k0, 0 + 25 * t), horizontalalignment='center')
+        return self
+
     @staticmethod
     def spin(s):
         """Map plus and minus one to TeX spin arrow."""
@@ -187,14 +198,6 @@ class PlotPairs(PlotBands):
          .plot_berry()
          .plot_pairs()
          .plot_transition())
-        return self
-
-    def plot_berry(self):
-        k0, t = self.opts['k0'], self.opts['t']
-        self.plot.annotate(
-            '$-\\Omega_z$', (-k0, 0 + 25 * t), horizontalalignment='center')
-        self.plot.annotate(
-            '$+\\Omega_z$', (k0, 0 + 25 * t), horizontalalignment='center')
         return self
 
     def plot_pairs(self):
@@ -236,8 +239,90 @@ class PlotPairs(PlotBands):
         self.plot.plot(t, fn(t), color='black', linestyle='-')
 
         self.plot.annotate(
-            '$\\epsilon_+$', (0.83, 0.52),
+            '$\\mathbf{\\epsilon}_+$', (0.83, 0.52),
             xycoords='axes fraction',
             horizontalalignment='center',
             verticalalignment='center')
+
+        return self
+
+class PlotExcitation(PlotBands):
+    """Plot single optical excitation above BCS ground state."""
+
+    def __init__(self, material, system):
+        super(PlotExcitation, self).__init__(material)
+        self.system = system
+        self.name = 'bcs-excitation'
+        self.opts['dk'] = 0.9 * self.opts['dk']
+
+    def plot_all(self):
+        """Create complete figure."""
+        (self.plot_bands()
+         .plot_chemical_potential()
+         .plot_axes(0.3)
+         .plot_berry()
+         .plot_pairs()
+         .plot_light())
+        return self
+
+    def plot_bands(self):
+        """Plot energy bands."""
+        e = Energy(self.dichalcogenide).e
+        mu = UpperValenceBand(self.dichalcogenide).μ
+        lk = Induced(self.dichalcogenide).λk
+        k0, dk = self.opts['k0'], self.opts['dk']
+
+        p = (-1, 1)
+        for x in itertools.product(p, p, p):
+            k = numpy.linspace(x[1] * (k0 - dk), x[1] * (k0 + dk), self.opts['n'])
+            if x[0] == -1 and x[1] == x[2]:
+                fn = lambda k, s=x: mu + lk(e(k - s[1] * k0, *s))
+                self.plot.plot(
+                    k, numpy.vectorize(fn)(k),
+                    color='black')
+            if x[0] == -1:
+                fn = lambda k, s=x: e(k - s[1] * k0, *s)
+                self.plot.plot(
+                    k, numpy.vectorize(fn)(k),
+                    color='none')
+            else:
+                fn = lambda k, s=x: e(k - s[1] * k0, *s)
+                self.plot.plot(
+                    k, numpy.vectorize(fn)(k),
+                    color='black')
+
+        self.plot.annotate(
+            'BCS Condensate', (0, -1.5), horizontalalignment='center')
+
+        return self
+
+    def plot_pairs(self):
+        e = Energy(self.dichalcogenide).e
+        mu = UpperValenceBand(self.dichalcogenide).μ
+        lk = Induced(self.dichalcogenide).λk
+        k0, dk = self.opts['k0'], self.opts['dk']
+        k1 = 1.2 * dk
+
+        self.plot.plot(
+            k1, e(k1 - k0, 1, 1, 1),
+            marker='o', color='black', markersize=10)
+
+        self.plot.plot(
+            -k1, mu + lk(e(k1 - k0, -1, 1, 1)),
+            marker='o', color='black', markersize=10)
+
+        return self
+
+    def plot_light(self):
+        w = 5
+        t = numpy.linspace(0.2, -0.8, 1000)
+        fn = lambda t: 0.05 * numpy.sin(2 * numpy.pi * w * t)
+        self.plot.plot(fn(t), t, color='black', linestyle='-')
+
+        self.plot.annotate(
+            '$\\mathbf{\\epsilon}_+$', (0.54, 0.55),
+            xycoords='axes fraction',
+            horizontalalignment='center',
+            verticalalignment='center')
+
         return self
