@@ -49,7 +49,7 @@ class PlotBands(Plot):
          .plot_spins())
         return self
 
-    def plot_axes(self, y=1.0):
+    def plot_axes(self, y=0):
         """Create and label center axes."""
         axes_style = dict(
             linewidth=0.5,
