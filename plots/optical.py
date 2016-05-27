@@ -35,7 +35,7 @@ class PlotOptical(Plot):
     def plot(self):
         """Create and configure the plot object."""
         if not hasattr(self, '_plot'):
-            matplotlib.rcParams.update({'font.size': 16})
+            matplotlib.rcParams.update({'font.size': 18})
             self._plot = [
                 self.figure.add_subplot(211),
                 self.figure.add_subplot(212)

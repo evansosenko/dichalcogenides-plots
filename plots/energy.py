@@ -32,7 +32,7 @@ class PlotBands(Plot):
     def plot(self):
         """Create and configure the plot object."""
         if not hasattr(self, '_plot'):
-            matplotlib.rcParams.update({'font.size': 22})
+            matplotlib.rcParams.update({'font.size': 26})
             self._plot = self.figure.add_subplot(111)
             self.plot.axis('off')
             self.plot.axes.get_xaxis().set_visible(False)
