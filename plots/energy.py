@@ -253,7 +253,8 @@ class PlotExcitation(PlotBands):
         super(PlotExcitation, self).__init__(material)
         self.system = system
         self.name = 'bcs-excitation'
-        self.opts['dk'] = 0.9 * self.opts['dk']
+        self.opts['dk'] = 0.7 * self.opts['dk']
+        self.opts['mu_scale'] = 0.9
 
     def plot_all(self):
         """Create complete figure."""
@@ -268,7 +269,7 @@ class PlotExcitation(PlotBands):
     def plot_bands(self):
         """Plot energy bands."""
         e = Energy(self.dichalcogenide).e
-        mu = UpperValenceBand(self.dichalcogenide).μ
+        mu = self.opts['mu_scale'] * UpperValenceBand(self.dichalcogenide).μ
         lk = Induced(self.dichalcogenide).λk
         k0, dk = self.opts['k0'], self.opts['dk']
 
@@ -298,10 +299,10 @@ class PlotExcitation(PlotBands):
 
     def plot_pairs(self):
         e = Energy(self.dichalcogenide).e
-        mu = UpperValenceBand(self.dichalcogenide).μ
+        mu = self.opts['mu_scale'] * UpperValenceBand(self.dichalcogenide).μ
         lk = Induced(self.dichalcogenide).λk
         k0, dk = self.opts['k0'], self.opts['dk']
-        k1 = 1.2 * dk
+        k1 = 1.5 * dk
 
         self.plot.plot(
             k1, e(k1 - k0, 1, 1, 1),
@@ -320,7 +321,7 @@ class PlotExcitation(PlotBands):
         self.plot.plot(fn(t), t, color='black', linestyle='-')
 
         self.plot.annotate(
-            '$\\mathbf{\\epsilon}_+$', (0.54, 0.40),
+            '$\\mathbf{\\epsilon}_+$', (0.54, 0.48),
             xycoords='axes fraction',
             horizontalalignment='center',
             verticalalignment='center')
