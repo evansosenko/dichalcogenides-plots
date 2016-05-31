@@ -104,7 +104,7 @@ class PlotBands(Plot):
             arrowprops=dimension_style)
 
         self.plot.annotate(
-            '$\\Delta$', (-k0 + 0.5 * t, 0 + t))
+            '$\\Delta - \\lambda$', (-k0 + 0.5 * t, 0 + t))
 
         self.plot.annotate(
             '', (-k0, e(0, -1, 1, 1)), (-k0, e(0, -1, 1, -1)),
