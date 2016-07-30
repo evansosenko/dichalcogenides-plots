@@ -43,7 +43,7 @@ class PlotOptical(Plot):
             self.plot[0].axes.get_xaxis().set_visible(False)
             self.plot[1].set_xlabel(
                 '$\\lambda_{\\mathbf{k}} / \\Delta_{\\mathbf{k}}$')
-            head = '$\\left( c / ℏ \\right) \\left|P_'
+            head = '$\\left| \\left( c / ℏ \\right) P_'
             foot = '\\right|^2$ $\\left(\\mathregular{GeV}^2\\right)$'
             self.plot[0].set_ylabel(head + '+' + foot)
             self.plot[1].set_ylabel(head + '-' + foot)
