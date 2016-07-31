@@ -75,7 +75,7 @@ class PlotOptical(Plot):
         fn_m = lambda xi: psc(-1, xi)
         fn_p = lambda xi: psc(1, xi)
 
-        xi = numpy.linspace(-1, 0, self.opts['n'])
+        xi = numpy.linspace(-0.01, 0, self.opts['n'])
 
         err = numpy.geterr()
         numpy.seterr(invalid='ignore')
