@@ -195,9 +195,7 @@ class PlotPairs(PlotBands):
          .plot_chemical_potential()
          .plot_axes()
          .plot_spins()
-         .plot_berry()
-         .plot_pairs()
-         .plot_transition())
+         .plot_pairs())
         return self
 
     def plot_pairs(self):
