@@ -104,15 +104,16 @@ class PlotBands(Plot):
             arrowprops=dimension_style)
 
         self.plot.annotate(
-            '$\\Delta - \\lambda$', (-k0 + 0.5 * t, 0 + t))
+            '$E_g - E_{\\mathrm{soc}}$', (-k0 + 0.5 * t, 0.05 + t))
 
         self.plot.annotate(
             '', (-k0, e(0, -1, 1, 1)), (-k0, e(0, -1, 1, -1)),
             arrowprops=dimension_style)
 
         self.plot.annotate(
-            '$2 \\lambda$',
-            (-k0 + 0.5 * t, 0.5 * (e(0, -1, 1, 1) + e(0, -1, 1, -1)) - 3.5 * t))
+            '$2 E_{\\mathrm{soc}}$',
+            (-k0 + 0.5 * t, 0.5 * (e(0, -1, 1, 1) + e(0, -1, 1, -1)) - 3.5 * t),
+            fontsize=20)
 
         return self
 
